@@ -1,0 +1,87 @@
+1. README
+
+    # Use
+
+        Builds are in `build` dir.
+        Run `main` for use with stdin.
+        Run `main < 'filename'` for file as stdin.
+        Run `main 'filename'` to read from file. Has similar output as above.
+
+        ### In code
+
+            Logger levels: DEBUG, INFO, WARNING, ERROR, CRITICAL.
+                Most used are INFO and ERROR.
+                Prints any messages of lowest level set and any of higher priority.
+
+    # Building
+
+        ### CMake
+
+            From build dir, run `cmake --build .`
+
+            ##### Tests
+
+                From build dir, run `cmake --build . --target <test name>`
+
+        ### Makefile
+
+            FIXME
+
+2. Test plan
+
+    Separated into classes based on what is being tested.
+    Ex: Testing atoms in types/atom_test.cpp
+    Use classes to organize static methods to call from test main.
+    Main keeps track of how many total succeed and fail.
+    Successful tests print out with Logger level INFO or lower.
+    Failed tests print out with Logger level ERROR or lower.
+
+    Currently testing input handling, atoms, cons cells, and s expressions.
+
+    # Tests
+
+        ### Input handling
+
+            Reader to ensure reading from file works.
+            Scanner to ensure tokenization works.
+            FIXME need to add parser tests but test by hand works and needed for other tests that work.
+
+        ### Types
+
+            Atoms tested by creating and using created atoms
+            Cons Cells tested by creating and using cons cells. FIXME add nested list testing but works by hand.
+            S Expression tested by creating s expressions with atoms and cons cells.
+
+3. Test output
+
+    # Automatic testing
+
+4. Documentation
+
+    ### Limitations
+
+        QUOTE and ' not working right now
+
+    ### Design Choices
+
+        ##### Symbols
+
+        Start: Currently cannot start with numbers, 1 char keywords, numbers, or a few other special cases like \
+        Characters: Currently cannot include single letter keywords like '(' or things like that. But that also includes '.'
+
+        ##### Numbers
+
+        Numbers with multiple decimals split into multiple numbers starting at 2nd decimal. Ex: 1.2.3 = 1.2 and .3
+
+        ##### Nil
+
+        Stored as separate nil typed atoms for now. Might change to empty lists later and/or make a singleton for all nils
+
+
+echo "# Lisp-Interpreter" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/JackLockhart04/Lisp-Interpreter.git
+git push -u origin main

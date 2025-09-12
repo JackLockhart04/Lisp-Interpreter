@@ -1,0 +1,18 @@
+# Build and binary files
+/build/
+*.exe
+*.dll
+*.obj
+*.o
+*.so
+*.a
+*.lib
+*.out
+*.log
+
+# CMake files
+CMakeLists.txt
+Makefile
+
+# VSCode settings
+.vscode/

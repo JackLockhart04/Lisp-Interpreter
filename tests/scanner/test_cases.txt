@@ -1,0 +1,9 @@
+42
+1.2
+1.2.3
+Hello world; this shouldn't print
+"Roll tide"
+(Roll tide)
+( (1)
+ (2)
+(3) )
