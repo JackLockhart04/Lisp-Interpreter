@@ -17,15 +17,18 @@
 
         ### CMake
 
+            First time, from build dir, need to run `cmake ..`
             From build dir, run `cmake --build .`
+            Creates `main.exe` and `tests.exe`
 
             ##### Tests
 
                 From build dir, run `cmake --build . --target <test name>`
+                Creates `tests.exe`
 
         ### Makefile
 
-            FIXME
+            From root dir, run `make`
 
 2. Test plan
 
@@ -56,6 +59,64 @@
 
     # Automatic testing
 
+        *Due to the way I handle input, could not remove the '>' while testing the reader and scanner
+
+        $ ./tests
+        INFO: ----- Input handling Tests -----
+        > > > > > > > > INFO: PASS: Reader tests passed.
+        > > > > > > > > > INFO: PASS: Scanner tests passed.
+        INFO: ----- Atom tests -----
+        INFO: PASS: getString
+        INFO: PASS: getSymbol
+        INFO: PASS: getLong
+        INFO: PASS: getDouble
+        INFO: PASS: getType
+        INFO: ----- Cons tests -----
+        INFO: PASS: car
+        INFO: PASS: cdr
+        INFO: PASS: toVector size
+        INFO: PASS: getDouble
+        INFO: PASS: getType
+        INFO: ----- Cons tests -----
+        INFO: PASS: car
+        INFO: PASS: cdr
+        INFO: PASS: toVector size
+        INFO: PASS: car
+        INFO: PASS: cdr
+        INFO: PASS: toVector size
+        INFO: PASS: toVector size
+        INFO: PASS: toVector contents
+        INFO: ----- SExpression tests -----
+        INFO: PASS: atom SExpression getType
+        INFO: PASS: cons SExpression getType
+        INFO: PASS: atom SExpression getAtom
+        INFO: PASS: cons SExpression getCons
+        INFO: Tests complete.
+        INFO: Passes: 15
+        INFO: Fails: 0
+
+    # Manual
+
+        $ ./main
+        > 42
+        : 42
+        > 1.2
+        : 1.200000
+        > 1.2.3
+        : 1.200000
+        : 0.300000
+        > Hello world
+        : Hello
+        : world
+        > "Roll tide"
+        : "Roll tide"
+        > (Roll tide)
+        : ( Roll tide )
+        > ( (1)
+        >  (2)
+        >  (3))
+        : ( ( 1 ) ( 2 ) ( 3 ) )
+
 4. Documentation
 
     ### Limitations
@@ -66,22 +127,13 @@
 
         ##### Symbols
 
-        Start: Currently cannot start with numbers, 1 char keywords, numbers, or a few other special cases like \
-        Characters: Currently cannot include single letter keywords like '(' or things like that. But that also includes '.'
+            Start: Currently cannot start with numbers, 1 char keywords, numbers, or a few other special cases like \
+            Characters: Currently cannot include single letter keywords like '(' or things like that. But that also includes '.'
 
         ##### Numbers
 
-        Numbers with multiple decimals split into multiple numbers starting at 2nd decimal. Ex: 1.2.3 = 1.2 and .3
+            Numbers with multiple decimals split into multiple numbers starting at 2nd decimal. Ex: 1.2.3 = 1.2 and .3
 
         ##### Nil
 
-        Stored as separate nil typed atoms for now. Might change to empty lists later and/or make a singleton for all nils
-
-
-echo "# Lisp-Interpreter" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/JackLockhart04/Lisp-Interpreter.git
-git push -u origin main
+            Stored as separate nil typed atoms for now. Might change to empty lists later and/or make a singleton for all nils
