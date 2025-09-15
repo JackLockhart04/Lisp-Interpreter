@@ -16,3 +16,9 @@ Makefile
 
 # VSCode settings
 .vscode/
+
+# PDFs
+*.pdf
+
+# Submission dir
+submissions/
