@@ -1,8 +1,10 @@
 #pragma once
+
+#include "types/token.h"
+#include "input/reader.h"
+
 #include <string>
 #include <vector>
-#include "types/token.h"
-#include "reader.h"
 #include <unordered_map>
 
 class Scanner {

@@ -13,6 +13,8 @@ public:
     };
 
     // Constructors for atom and cons cell
+    SExpression();
+    SExpression(const SExpression& other);
     SExpression(Atom* atom);
     SExpression(ConsCell* cons);
     ~SExpression();

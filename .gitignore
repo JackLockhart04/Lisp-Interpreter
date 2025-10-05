@@ -22,3 +22,6 @@ Makefile
 
 # Submission dir
 submissions/
+
+# Lisp files
+*.lisp

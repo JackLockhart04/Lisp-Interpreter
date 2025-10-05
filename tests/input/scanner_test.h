@@ -1,7 +1,7 @@
 #pragma once
 
-#include "util/logger/logger.h"
-#include "scanner.h"
+#include "util/logger.h"
+#include "input/scanner.h"
 
 #include <iostream>
 #include <fstream>

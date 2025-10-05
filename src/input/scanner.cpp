@@ -141,11 +141,12 @@ int Scanner::initTokenTypeMap() {
         {"}", Token::TokenType::RIGHT_BRACE},
         {",", Token::TokenType::COMMA},
         {".", Token::TokenType::DOT},
+        {";", Token::TokenType::SEMICOLON},
         {"-", Token::TokenType::MINUS},
         {"+", Token::TokenType::PLUS},
-        {";", Token::TokenType::SEMICOLON},
         {"/", Token::TokenType::SLASH},
         {"*", Token::TokenType::STAR},
+        {"'", Token::TokenType::QUOTE}
         // Add more tokens as needed
     };
     return 0; // Placeholder

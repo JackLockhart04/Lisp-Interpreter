@@ -1,6 +1,6 @@
 #pragma once
 
-#include "util/logger/logger.h"
+#include "util/logger.h"
 
 #include <string>
 
@@ -16,6 +16,7 @@ public:
     };
 
     // Constructors for each type
+    Atom(const Atom& other); // Copy
     Atom(Type type = Type::Nil); // For Nil type
     Atom(long longValue);
     Atom(double doubleValue);

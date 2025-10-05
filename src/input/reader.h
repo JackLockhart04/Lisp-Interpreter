@@ -1,6 +1,6 @@
 #pragma once
 
-#include "util/logger/logger.h"
+#include "util/logger.h"
 
 #include <string>
 #include <sstream>

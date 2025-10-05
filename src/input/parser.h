@@ -1,6 +1,6 @@
 #pragma once
 
-#include "scanner.h"
+#include "input/scanner.h"
 #include "types/s_expression.h"
 #include "types/atom.h"
 #include "types/cons.h"

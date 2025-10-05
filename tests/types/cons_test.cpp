@@ -26,7 +26,7 @@ bool ConsTester::testCadr(int &passes, int &fails) {
     cons = new ConsCell(sexpr1, listItem);
 
     // Test car
-    SExpression const* car = &cons->getCar();
+    SExpression const* car = cons->getCar();
     if (car == sexpr1) {
         Logger::log("PASS: car", Logger::INFO);
         passes++;
@@ -37,7 +37,7 @@ bool ConsTester::testCadr(int &passes, int &fails) {
     }
 
     // Test cdr
-    SExpression const* cdr = &cons->getCdr();
+    SExpression const* cdr = cons->getCdr();
     if (cdr == listItem) {
         Logger::log("PASS: cdr", Logger::INFO);
         passes++;

@@ -1,7 +1,7 @@
 #include "scanner_test.h"
 
 bool ScannerTester::runTest(int &passes, int &fails) {
-    Scanner scanner("../tests/scanner/test_cases.txt");
+    Scanner scanner("../tests/input/scanner_test_cases.txt");
 
     bool pass = true;
     // 42

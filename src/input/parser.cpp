@@ -46,6 +46,25 @@ SExpression* Parser::parseSExpression() {
             // Ignore and continue parsing
             expr = nullptr;
             break;
+        // Math
+        case Token::TokenType::PLUS:
+        case Token::TokenType::MINUS:
+        case Token::TokenType::STAR:
+        case Token::TokenType::SLASH: {
+            Atom* atom = new Atom(token.getLexeme(), Atom::Type::Symbol);
+            expr = new SExpression(atom);
+            break;
+        }
+        // QUOTE
+        case Token::TokenType::QUOTE: {
+            Atom* quoteAtom = new Atom("QUOTE", Atom::Type::Symbol);
+            SExpression* quoteSExpr = new SExpression(quoteAtom);
+            SExpression* quotedExpr = parseSExpression();
+            ConsCell* cons = new ConsCell(quotedExpr, new SExpression());
+            ConsCell* fullCons = new ConsCell(quoteSExpr, new SExpression(cons));
+            expr = new SExpression(fullCons);
+            break;
+        }
         // EOF
         case Token::TokenType::EndOfFile: {
             Atom* atom = new Atom(Atom::Type::END_OF_FILE);

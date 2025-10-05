@@ -9,14 +9,71 @@ ConsCell::ConsCell(SExpression* car, SExpression* cdr) {
     this->cdr = cdr;
 }
 
-ConsCell::~ConsCell() {}
-
-SExpression& ConsCell::getCar() {
-    return *car;
+// Copy
+ConsCell::ConsCell(const ConsCell& other) {
+    // Deep copy car and cdr
+    if (other.car) {
+        car = new SExpression(*other.car); // Calls SExpression copy constructor
+    } else {
+        car = nullptr;
+    }
+    if (other.cdr) {
+        cdr = new SExpression(*other.cdr); // Calls SExpression copy constructor
+    } else {
+        cdr = nullptr;
+    }
 }
 
-SExpression& ConsCell::getCdr() {
-    return *cdr;
+ConsCell::~ConsCell() {}
+
+SExpression* ConsCell::getCar() {
+    return car;
+}
+
+SExpression* ConsCell::getCdr() {
+    return cdr;
+}
+
+SExpression* ConsCell::getCadr() {
+    // Ensure cdr is a cons cell
+    if (cdr->getType() != SExpression::Type::ConsCell) {
+        // Return nil
+        SExpression *nil = new SExpression();
+        return nil;
+    }
+    return cdr->getCons()->getCar();
+}
+
+SExpression* ConsCell::getCaddr() {
+    // Ensure cdr is a cons cell
+    if (cdr->getType() != SExpression::Type::ConsCell) {
+        // Return nil
+        SExpression *nil = new SExpression();
+        return nil;
+    }
+    SExpression *second = cdr->getCons()->getCdr();
+    // Ensure second is a cons cell
+    if (second->getType() != SExpression::Type::ConsCell) {
+        // Return nil
+        SExpression *nil = new SExpression();
+        return nil;
+    }
+    return second->getCons()->getCar();
+}
+
+int ConsCell::getLength(){
+    int length = 0;
+    ConsCell* current = this;
+    while (true) {
+        length++;
+        // If cdr is another cons cell, continue traversing the list
+        if (current->cdr && current->cdr->getType() == SExpression::Type::ConsCell) {
+            current = current->cdr->getCons();
+        } else {
+            break;
+        }
+    }
+    return length;
 }
 
 // Helpers

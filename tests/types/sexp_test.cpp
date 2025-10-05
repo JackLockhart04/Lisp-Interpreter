@@ -76,8 +76,8 @@ bool SexpTester::testGetCons(int &passes, int &fails) {
     ConsCell* retrievedCons = nullptr;
     retrievedCons = consSExp->getCons();
     if (retrievedCons != nullptr 
-            && retrievedCons->getCar().getType() == atomSExp1->getType() 
-            && retrievedCons->getCdr().getType() == atomSExp2->getType()) {
+            && retrievedCons->getCar()->getType() == atomSExp1->getType() 
+            && retrievedCons->getCdr()->getType() == atomSExp2->getType()) {
         Logger::log("PASS: cons SExpression getCons", Logger::INFO);
         passes++;
     } else {

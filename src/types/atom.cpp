@@ -2,6 +2,15 @@
 
 #include <stdexcept>
 
+// Copy constructor
+Atom::Atom(const Atom& other) {
+    Logger::log("Copying Atom of type: " + std::to_string(static_cast<int>(other.type)), Logger::DEBUG);
+    type = other.type;
+    longValue = other.longValue;
+    doubleValue = other.doubleValue;
+    stringValue = other.stringValue;
+}
+
 // Type only
 Atom::Atom(Type type) {
     Logger::log("Creating Atom of type: " + std::to_string(static_cast<int>(type)), Logger::DEBUG);

@@ -1,5 +1,8 @@
+#pragma once
+
 #include "core/type_checker.h"
 #include "types/atom.h"
+#include "types/cons.h"
 #include "types/s_expression.h"
 
 class TypeCheckerTester {

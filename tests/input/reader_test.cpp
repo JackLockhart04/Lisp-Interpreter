@@ -1,10 +1,10 @@
 #include "reader_test.h"
-#include "reader.h"
+#include "input/reader.h"
 
 bool ReaderTester::runTest(int &passes, int &fails) {
     // Test reading from a file and comparing to expected output
     bool pass = true;
-    std::string fileName = "../tests/reader/test_cases.txt";
+    std::string fileName = "../tests/input/reader_test_cases.txt";
     std::ifstream file(fileName);
     if (!file.is_open()) {
         Logger::log("Could not open file: " + fileName, Logger::ERROR);

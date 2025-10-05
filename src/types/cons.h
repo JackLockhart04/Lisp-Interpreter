@@ -8,11 +8,15 @@
 class ConsCell {
 public:
     ConsCell(SExpression* car, SExpression* cdr);
+    ConsCell(const ConsCell& other);
     ~ConsCell();
 
-    SExpression& getCar();
-    SExpression& getCdr();
+    SExpression* getCar();
+    SExpression* getCdr();
+    SExpression* getCadr();
+    SExpression* getCaddr();
 
+    int getLength();
     void print() const;
     std::vector<SExpression*> toVector();
 

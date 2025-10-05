@@ -6,6 +6,25 @@
 #include <memory>
 #include <stdexcept>
 
+SExpression::SExpression() {
+    type = Type::Atom;
+    atomPtr = new Atom(); // Default to nil atom
+    consPtr = nullptr;
+}
+
+SExpression::SExpression(const SExpression& other) {
+    type = other.getType();
+    if (type == Type::Atom) {
+        atomPtr = new Atom(*(other.getAtom()));
+        consPtr = nullptr;
+    } else if (type == Type::ConsCell) {
+        consPtr = new ConsCell(*(other.getCons()));
+        atomPtr = nullptr;
+    } else {
+        throw std::logic_error("Unknown SExpression type in copy constructor");
+    }
+}
+
 SExpression::SExpression(Atom* atom) {
     type = Type::Atom;
     atomPtr = atom;
@@ -25,12 +44,20 @@ SExpression::Type SExpression::getType() const {
 }
 
 Atom* SExpression::getAtom() const {
-    if (type != Type::Atom) throw std::logic_error("Not an atom SExpression");
+    if (type != Type::Atom){
+        Logger::log("getAtom called on non-atom SExpression", Logger::ERROR);
+        Atom *nil = new Atom(); // Nil atom
+        return nil;
+    }
     return atomPtr;
 }
 
 ConsCell* SExpression::getCons() const {
-    if (type != Type::ConsCell) throw std::logic_error("Not a cons cell SExpression");
+    if (type != Type::ConsCell){
+        Logger::log("getCons called on non-cons cell SExpression", Logger::ERROR);
+        ConsCell *nil = new ConsCell(new SExpression(), new SExpression());
+        return nil;
+    }
     return consPtr;
 }
 
