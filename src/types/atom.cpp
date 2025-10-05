@@ -96,7 +96,7 @@ void Atom::print() const {
             printf("\"%s\"", stringValue.c_str());
             break;
         case Type::Nil:
-            printf("nil");
+            printf("()");
             break;
     }
 }

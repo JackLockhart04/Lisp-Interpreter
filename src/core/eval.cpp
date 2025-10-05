@@ -86,8 +86,22 @@ SExpression* evalPredefinedFunction(SExpression* expr, Environment* env) {
     // Handle predefined functions
     std::string opSymbol = car->getAtom()->getSymbol();
     
-    // -----Quote-----
-    if(opSymbol == "QUOTE") {
+    // -----Eval and Quote-----
+    if(opSymbol == "eval") {
+        // Ensure correct number of args
+        int length = 0;
+        if(expr->getCons()->getCdr()->getType() == SExpression::Type::ConsCell) {
+            length = expr->getCons()->getCdr()->getCons()->getLength();
+        }
+        if(length != 1) {
+            Atom *errorAtom = new Atom("Incorrect number of arguments", Atom::Type::Symbol);
+            return new SExpression(errorAtom);
+        }
+        SExpression *cdr = expr->getCons()->getCdr();
+        SExpression *arg = cdr->getCons()->getCar();
+        SExpression *evalArg = eval(arg, env);
+        return eval(evalArg, env);
+    } else if(opSymbol == "QUOTE") {
         // Car is QUOTE, return the cdr unevaluated
         SExpression *cdr = expr->getCons()->getCdr();
         // If cons cell return its car

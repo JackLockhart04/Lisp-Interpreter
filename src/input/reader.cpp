@@ -68,6 +68,7 @@ void Reader::loadNextLine() {
         if (std::getline(fileStream, lineStr)) {
             lineStr += '\n';
             line.str(lineStr);
+            std::cout << lineStr; // Echo line to stdout
             line.clear(); // Clear eof and fail bits
         } else {
             line.str(""); // No more lines

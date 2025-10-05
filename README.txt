@@ -5,7 +5,7 @@
         Builds end up in `build` dir.
         Run `main` for use with stdin.
         Run `main < 'filename'` for file as stdin.
-        Run `main 'filename'` to read from file. Has similar output as above.
+        Run `main 'filename'` to read from file. Has better output formatting.
 
         ### In code
 
@@ -17,6 +17,7 @@
 
         src dir has the source code and main.cpp
         tests dir has the test code and test main.cpp
+        Files organized into sections such as types, core, and util
 
     # Building
 
@@ -53,7 +54,6 @@
 
             Reader to ensure reading from file works.
             Scanner to ensure tokenization works.
-            FIXME need to add parser tests but test by hand works and needed for other tests that work.
 
         ### Types
 
@@ -61,109 +61,67 @@
             Cons Cells tested by creating and using cons cells. FIXME add nested list testing but works by hand.
             S Expression tested by creating s expressions with atoms and cons cells.
 
+        ### Core
+
+            Ensure all core functinoalities are working
+            Each core class has its own tests included in ./tests except for eval() which is tested mostly with my 'testFile.lisp'
+
 3. Test output
 
     # Automatic testing
 
-        *Due to the way I handle input, could not remove the '>' while testing the reader and scanner
-
         $ ./tests
-        INFO: ----- Input handling Tests -----
-        > > > > > > > > INFO: PASS: Reader tests passed.
-        > > > > > > > > > INFO: PASS: Scanner tests passed.
-        INFO: ----- Atom tests -----
-        INFO: PASS: getString
-        INFO: PASS: getSymbol
-        INFO: PASS: getLong
-        INFO: PASS: getDouble
-        INFO: PASS: getType
-        INFO: ----- Cons tests -----
-        INFO: PASS: car
-        INFO: PASS: cdr
-        INFO: PASS: toVector size
-        INFO: PASS: getDouble
-        INFO: PASS: getType
-        INFO: ----- Cons tests -----
-        INFO: PASS: car
-        INFO: PASS: cdr
-        INFO: PASS: toVector size
-        INFO: PASS: car
-        INFO: PASS: cdr
-        INFO: PASS: toVector size
-        INFO: PASS: toVector size
-        INFO: PASS: toVector contents
-        INFO: ----- SExpression tests -----
-        INFO: PASS: atom SExpression getType
-        INFO: PASS: cons SExpression getType
-        INFO: PASS: atom SExpression getAtom
-        INFO: PASS: cons SExpression getCons
-        INFO: Tests complete.
-        INFO: Passes: 15
-        INFO: Fails: 0
 
     # Manual
 
-        $ ./main
-        > 42
-        : 42
-        > 1.2
-        : 1.200000
-        > 1.2.3
-        : 1.200000
-        : 0.300000
-        > Hello world
-        : Hello
-        : world
-        > "Roll tide"
-        : "Roll tide"
-        > (Roll tide)
-        : ( Roll tide )
-        > ""
-        : ""
-        > "Hello . world"
-        : "Hello . world"
-        > "Hello () world"
-        : "Hello () world"
-        > ("Hello" "World")
-        : ( "Hello" "World" )
-        > ( (1)
-        >  (2)
-        >  (3))
-        : ( ( 1 ) ( 2 ) ( 3 ) )
 
 4. Documentation
 
     ### Limitations
 
-        QUOTE and ' not working right now
         Cannot read in dot notation
-        Cannot print dot notation after I made a change that broke it
+        Cannot start symbols with reserved characters like '+'
+        Doesn't have extra built in functionalities like cadr, maps, etc
 
     ### Design Choices
 
         ##### Symbols
 
             Start: Currently cannot start with numbers, 1 char keywords, numbers, or a few other special cases like \
-            Characters: Currently cannot include single letter keywords like '(' or things like that. But that also includes '.'
+            Characters: Currently cannot include single letter keywords like '(' or things like that. But that also includes '.', '+', etc
 
         ##### Numbers
 
             Numbers with multiple decimals split into multiple numbers starting at 2nd decimal. Ex: 1.2.3 = 1.2 and .3
-            Longs and Doubles cannot be add/sub/mul/div/mod by the other
+            Longs and Doubles cannot be add/sub/mul/div/mod by the other or compared
+            Functinos and comparisons use symbols like '+' and '=' whenever possible, except 'not'
 
         ##### Nil
 
-            Stored as separate nil typed atoms for now. Might change to empty lists later and/or make a singleton for all nils.
+            Stored as separate nil typed atoms
+            Input as '()'. Inputing nil creates a symbol atom, not nil
+            Prints out as '()'
 
         ##### True/false
 
-            True is 't
-            False is ()
-
-        ##### Errors
-        
-            Errors return a string SExp that breifly describes the error. Ex: "Not numbers" when adding a SExp that isn't a number.
+            True is output as 't, but all non nil are considered truthy
+            False is nil
         
         ##### Environment
 
             Looking up unbound symbol returns the looked up symbol
+            Variables and functions stored in same environment. Functions stored as lambda functions
+            Only use symbols as keys. 'set' seems to work with other atom types as keys but looking up does not work.
+            New environment created for each function call to add arguments. Can be an issue, create lots of envs in deep recursive calls.
+
+        ##### Eval
+
+            Everything gets eval() unless quoted or in certain circumstances like defining a function
+            All function arguments get evaluated unless quoted
+            Function calls given new environment with parent env and args
+
+        ##### Errors
+        
+            Errors return a string SExp that breifly describes the error. Ex: "Not numbers" when adding a SExp that isn't a number.
+            Used for anything that would create unknown outcome such as (set x) which sets x to nothing
+            Can be annoying because errors count as true since they're strings
