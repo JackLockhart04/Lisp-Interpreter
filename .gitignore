@@ -10,10 +10,6 @@
 *.out
 *.log
 
-# CMake files
-CMakeLists.txt
-Makefile
-
 # VSCode settings
 .vscode/
 
