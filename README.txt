@@ -23,8 +23,8 @@
 
         ### Makefile
 
-                From root dir, run `make`
-                Creates 'main.exe' and 'tests_main.exe' in the build dir
+            From root dir, run `make`
+            Creates 'main.exe' and 'tests_main.exe' in the build dir
 
         ### CMake
 

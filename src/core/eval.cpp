@@ -128,8 +128,8 @@ SExpression* evalPredefinedFunction(SExpression* expr, Environment* env) {
         SExpression *evalArg1 = eval(arg1, env);
         SExpression *arg2 = cdr->getCons()->getCadr();
         SExpression *evalArg2 = eval(arg2, env);
-        // If arg2 is an atom, add a nil to the end to make it a list
-        if(evalArg2->getType() == SExpression::Type::Atom) {
+        // If arg2 is an atom, add a nil to the end to make it a list unless its nil
+        if(evalArg2->getType() == SExpression::Type::Atom && evalArg2->getAtom()->getType() != Atom::Type::Nil) {
             ConsCell *newCdrCons = new ConsCell(evalArg2, new SExpression());
             evalArg2 = new SExpression(newCdrCons);
         }
@@ -441,6 +441,84 @@ SExpression* evalPredefinedFunction(SExpression* expr, Environment* env) {
         SExpression *arg = expr->getCons()->getCadr();
         SExpression *evalArg = eval(arg, env);
         return LogicalFunction::logical_not(evalArg);
+    }
+    // Types
+    else if (opSymbol == "atom?"){
+        // Ensure correct number of args
+        int length = 0;
+        if(expr->getCons()->getCdr()->getType() == SExpression::Type::ConsCell) {
+            length = expr->getCons()->getCdr()->getCons()->getLength();
+        }
+        if(length != 1) {
+            Atom *errorAtom = new Atom("Incorrect number of arguments", Atom::Type::Symbol);
+            return new SExpression(errorAtom);
+        }
+        SExpression *arg = expr->getCons()->getCadr();
+        SExpression *evalArg = eval(arg, env);
+        Atom *resultAtom;
+        if(evalArg->getType() == SExpression::Type::Atom && evalArg->getAtom()->getType() != Atom::Type::Nil) {
+            resultAtom = new Atom("t", Atom::Type::Symbol); // true
+        } else {
+            resultAtom = new Atom(); // nil (false)
+        }
+        return new SExpression(resultAtom);
+    } else if (opSymbol == "list?"){
+        // Ensure correct number of args
+        int length = 0;
+        if(expr->getCons()->getCdr()->getType() == SExpression::Type::ConsCell) {
+            length = expr->getCons()->getCdr()->getCons()->getLength();
+        }
+        if(length != 1) {
+            Atom *errorAtom = new Atom("Incorrect number of arguments", Atom::Type::Symbol);
+            return new SExpression(errorAtom);
+        }
+        SExpression *arg = expr->getCons()->getCadr();
+        SExpression *evalArg = eval(arg, env);
+        Atom *resultAtom;
+        if(evalArg->getType() == SExpression::Type::ConsCell || (evalArg->getType() == SExpression::Type::Atom && evalArg->getAtom()->getType() == Atom::Type::Nil)) {
+            resultAtom = new Atom("t", Atom::Type::Symbol); // true
+        } else {
+            resultAtom = new Atom(); // nil (false)
+        }
+        return new SExpression(resultAtom);
+    } else if (opSymbol == "nil?"){
+        // Ensure correct number of args
+        int length = 0;
+        if(expr->getCons()->getCdr()->getType() == SExpression::Type::ConsCell) {
+            length = expr->getCons()->getCdr()->getCons()->getLength();
+        }
+        if(length != 1) {
+            Atom *errorAtom = new Atom("Incorrect number of arguments", Atom::Type::Symbol);
+            return new SExpression(errorAtom);
+        }
+        SExpression *arg = expr->getCons()->getCadr();
+        SExpression *evalArg = eval(arg, env);
+        Atom *resultAtom;
+        if(evalArg->getType() == SExpression::Type::Atom && evalArg->getAtom()->getType() == Atom::Type::Nil) {
+            resultAtom = new Atom("t", Atom::Type::Symbol); // true
+        } else {
+            resultAtom = new Atom(); // nil (false)
+        }
+        return new SExpression(resultAtom);
+    } else if (opSymbol == "number?"){
+        // Ensure correct number of args
+        int length = 0;
+        if(expr->getCons()->getCdr()->getType() == SExpression::Type::ConsCell) {
+            length = expr->getCons()->getCdr()->getCons()->getLength();
+        }
+        if(length != 1) {
+            Atom *errorAtom = new Atom("Incorrect number of arguments", Atom::Type::Symbol);
+            return new SExpression(errorAtom);
+        }
+        SExpression *arg = expr->getCons()->getCadr();
+        SExpression *evalArg = eval(arg, env);
+        Atom *resultAtom;
+        if(TypeChecker::isNumber(evalArg)) {
+            resultAtom = new Atom("t", Atom::Type::Symbol); // true
+        } else {
+            resultAtom = new Atom(); // nil (false)
+        }
+        return new SExpression(resultAtom);
     }
 
     return new SExpression(*expr); // Return a copy of the expression if cant do anything
