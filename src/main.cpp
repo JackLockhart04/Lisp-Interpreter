@@ -6,10 +6,9 @@
 
 Logger::LogLevel logLevel = Logger::INFO;
 
-int main(int argc, char** argv) {
+int main() {
     Logger::setLogLevel(logLevel);
-    std::string filename = (argc > 1) ? argv[1] : "";
-    Parser parser(filename);
+    Parser parser;
 
     Environment globalEnv;
 
