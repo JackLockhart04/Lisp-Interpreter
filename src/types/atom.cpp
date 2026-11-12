@@ -84,7 +84,7 @@ std::string Atom::getSymbol() const {
 void Atom::print() const {
     switch (type) {
         case Type::Long:
-            printf("%d", longValue);
+            printf("%ld", longValue);
             break;
         case Type::Double:
             printf("%f", doubleValue);
